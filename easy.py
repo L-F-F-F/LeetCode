@@ -750,31 +750,31 @@ class Solution:
                24: 'X', 25: 'Y', 26: 'Z'}
         str = ''
         while n > 26:
-            temp = (n-1) // 26
+            temp = (n - 1) // 26
             mi = 1
             while temp > 26:
-                temp = (temp-1) // 26
+                temp = (temp - 1) // 26
                 mi = mi + 1
             str = str + dic[temp]
             n = n - 26 ** mi * temp
         str = str + dic[n]
         return str
 
-    def majorityElement(self, nums): # 169 众数
+    def majorityElement(self, nums):  # 169 众数
         nums.sort()
         return nums[len(nums) // 2]
 
-    def titleToNumber(self, s):#171. Excel表列序号
+    def titleToNumber(self, s):  # 171. Excel表列序号
         """
         :type s: str
         :rtype: int
         """
         num = 0
         for i in range(len(s)):
-            num += (ord(s[-i-1])-64)*26**i
+            num += (ord(s[-i - 1]) - 64) * 26 ** i
         return num
 
-    def trailingZeroes(self, n):#172. 阶乘后的零
+    def trailingZeroes(self, n):  # 172. 阶乘后的零
         """
         :type n: int
         :rtype: int
@@ -786,7 +786,7 @@ class Solution:
             mi += n
         return mi
 
-    def rotate(self, nums, k):#189. 旋转数组
+    def rotate(self, nums, k):  # 189. 旋转数组
         """
         :type nums: List[int]
         :type k: int
@@ -795,13 +795,11 @@ class Solution:
         # 右移数组 可以考虑 三次翻转，先全部翻转，变成倒序
         # 再前k个翻转，正序；后n-k个翻转，正序
         L = len(nums)
-        if k % L != 0: # 否则不用翻转
-            k %= L # 移动长度大于数组长度的取模
+        if k % L != 0:  # 否则不用翻转
+            k %= L  # 移动长度大于数组长度的取模
             nums[:] = nums[::-1]
             nums[:k] = nums[k - 1::-1]
             nums[k:] = nums[L - 1:k - 1:-1]
-
-
 
 
 class MinStack:  # 155 最小栈
@@ -856,8 +854,8 @@ if __name__ == '__main__':
     # a.pop([2,3,4])
 
     a = Solution()
-    A = [1,2,3,4,5,6,7]
-    b = a.rotate(A,3)
+    A = [1, 2, 3, 4, 5, 6, 7]
+    b = a.rotate(A, 3)
     # while b:
     #     print(b.val)
     #     b = b.next
