@@ -801,6 +801,15 @@ class Solution:
             nums[:k] = nums[k - 1::-1]
             nums[k:] = nums[L - 1:k - 1:-1]
 
+    def reverseBits(self, n):  # 190. 颠倒二进制位
+        x = str(bin(n))[2:]  # 转二进制是从第三位开始的
+        x = x[::-1]
+        l = len(x)
+        if l < 32:  # 少于32位用0补齐
+            d = 32 - l
+            x = x + d * '0'
+        return (int(x, 2))
+
 
 class MinStack:  # 155 最小栈
 
