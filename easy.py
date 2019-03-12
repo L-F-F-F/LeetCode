@@ -810,6 +810,113 @@ class Solution:
             x = x + d * '0'
         return (int(x, 2))
 
+    def hammingWeight(self, n):  # 191. 位1的个数
+        """
+        :type n: int
+        :rtype: int
+        """
+        x = bin(n)[2:]
+        weight = 0
+        for i in range(len(x)):
+            if x[i] == '1':
+                weight += 1
+        return weight
+
+    def rob(self, nums):  # 198. 打家劫舍
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # 动态规划 抢劫第n个房子的收益 fn=max(fn_2,fn_3)+A[n]
+        L = len(nums)
+        if L == 0:
+            return 0
+        elif L == 1:
+            return nums[0]
+        elif L == 2:
+            return max(nums[0], nums[1])
+        else:
+            maxsum = nums[1]
+            for i in range(2, L):
+                if i - 3 >= 0:
+                    nums[i] = max(nums[i - 2], nums[i - 3]) + nums[i]
+                else:
+                    nums[2] = nums[0] + nums[2]
+                if nums[i] > maxsum:
+                    maxsum = nums[i]
+            return maxsum
+
+    def isHappy(self, n):  # 202. 快乐数
+        """
+        :type n: int
+        :rtype: bool
+        """
+        # 缩到个位数的时候，只有1 7是快乐，其余的都会陷入循环
+        while n > 9:
+            tempsum = 0
+            temp = n
+            while temp >= 1:
+                tempsum += (temp % 10) ** 2
+                temp = temp // 10
+            n = tempsum
+        if n == 1 or n == 7:
+            return True
+        return False
+
+    def removeElements(self, head, val):  # 203. 移除链表元素
+        """
+        :type head: ListNode
+        :type val: int
+        :rtype: ListNode
+        """
+        pa = ListNode(0)
+        pa.next = head
+        temp = pa
+        while (pa):
+            while (pa.next and pa.next.val == val):
+                pa.next = pa.next.next
+            pa = pa.next
+        return temp.next
+
+    def countPrimes(self, n):  # 204. 计数质数
+        """
+        :type n: int
+        :rtype: int
+        """
+        # 维护一个n的数组，每发现一个质数，就把其倍数标记为合数，剩下的个数就是
+        if n <= 2:
+            return 0
+        li = [1] * n  # 是质数
+        li[0] = 0
+        li[1] = 0
+        for i in range(2, int(n ** 0.5) + 1):
+            if li[i]:  # 是质数
+                li[i * i:n:i] = [0] * len(li[i * i:n:i])
+        return sum(li)
+
+    def isIsomorphic(self, s, t):  # 205. 同构字符串
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if len(s) != len(t):
+            return False
+        dic = {}
+        dic2 = {}
+        point = 0
+        while point < len(s):
+            if s[point] in dic and t[point] in dic2:
+                if dic[s[point]] != t[point] or dic2[t[point]] != s[point]:
+                    return False
+            elif (s[point] in dic and t[point] not in dic2) or (s[point] not in dic and t[point] in dic2):
+                return False
+            else:
+                dic[s[point]] = t[point]
+                dic2[t[point]] = s[point]
+            point += 1
+        return True
+
 
 class MinStack:  # 155 最小栈
 
@@ -864,8 +971,8 @@ if __name__ == '__main__':
 
     a = Solution()
     A = [1, 2, 3, 4, 5, 6, 7]
-    b = a.rotate(A, 3)
+    b = a.isIsomorphic("abb", "cdd")
     # while b:
     #     print(b.val)
     #     b = b.next
-    print(A)
+    print(b)
