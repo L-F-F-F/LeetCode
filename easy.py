@@ -764,9 +764,44 @@ class Solution:
         nums.sort()
         return nums[len(nums) // 2]
 
-    def titleToNumber(self, s): # 171 excel表列序号
+    def titleToNumber(self, s):#171. Excel表列序号
+        """
+        :type s: str
+        :rtype: int
+        """
         num = 0
-        dic={}
+        for i in range(len(s)):
+            num += (ord(s[-i-1])-64)*26**i
+        return num
+
+    def trailingZeroes(self, n):#172. 阶乘后的零
+        """
+        :type n: int
+        :rtype: int
+        """
+        # 2 5 组合有0，2的个数肯定比5多，所以看质因数有几个5
+        mi = 0
+        while n >= 5:
+            n /= 5
+            mi += n
+        return mi
+
+    def rotate(self, nums, k):#189. 旋转数组
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: None Do not return anything, modify nums in-place instead.
+        """
+        # 右移数组 可以考虑 三次翻转，先全部翻转，变成倒序
+        # 再前k个翻转，正序；后n-k个翻转，正序
+        L = len(nums)
+        if k % L != 0: # 否则不用翻转
+            k %= L # 移动长度大于数组长度的取模
+            nums[:] = nums[::-1]
+            nums[:k] = nums[k - 1::-1]
+            nums[k:] = nums[L - 1:k - 1:-1]
+
+
 
 
 class MinStack:  # 155 最小栈
@@ -821,8 +856,9 @@ if __name__ == '__main__':
     # a.pop([2,3,4])
 
     a = Solution()
-    b = a.maxDepth(r1)
+    A = [1,2,3,4,5,6,7]
+    b = a.rotate(A,3)
     # while b:
     #     print(b.val)
     #     b = b.next
-    print(b)
+    print(A)
