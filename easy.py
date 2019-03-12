@@ -1,3 +1,13 @@
+def twoSum(self, nums, target):  # 1 两数之和
+    hashDit = {}  # 通过字典实现哈希，存的是index,一般情况下查找的近似复杂度为O(1)
+    for index, num in enumerate(nums):  # 总体时间复杂度O(n)
+        answer = target - num
+        if answer in hashDit:
+            return [hashDit[answer], index]
+        else:
+            hashDit[num] = index
+
+
 def reverse(x):  # 7 数字翻转
     flag = 1  # 是否正数
     if x < 0:
@@ -592,32 +602,32 @@ class Solution:
         else:
             return False
 
-    def generate(self, numRows: int): # 118 杨辉三角
+    def generate(self, numRows: int):  # 118 杨辉三角
         if numRows == 0:
             return []
         if numRows == 1:
             return [[1]]
-        outList=[[1]]
+        outList = [[1]]
         lastList = [1]
-        for i in range(2,numRows+1):
+        for i in range(2, numRows + 1):
             templist = []
             for j in range(i):
-                if j == 0 or j == i-1:
+                if j == 0 or j == i - 1:
                     templist.append(1)
                 else:
-                    templist.append(lastList[j-1]+lastList[j])
+                    templist.append(lastList[j - 1] + lastList[j])
             lastList = templist
             outList.append(templist)
         return outList
 
-    def getRow(self, rowIndex: int): # 119 杨辉三角2
-        #组合数前一项和后一项的关系
-        outList = [1]*(rowIndex+1)
-        for i in range(1,rowIndex):
-            outList[i] = outList[i-1]*(rowIndex+1-i)//i
+    def getRow(self, rowIndex: int):  # 119 杨辉三角2
+        # 组合数前一项和后一项的关系
+        outList = [1] * (rowIndex + 1)
+        for i in range(1, rowIndex):
+            outList[i] = outList[i - 1] * (rowIndex + 1 - i) // i
         return outList
 
-    def maxProfit(self, prices):#121 卖股票最佳时机
+    def maxProfit(self, prices):  # 121 卖股票最佳时机
         # fn是第n天卖股票获取的最大利润，fn=max[fn_1+A[n]-A[n-1] , 0] 再求所有fn最大值，动态规划
         maxLirun = 0
         fn_1 = 0
@@ -626,20 +636,20 @@ class Solution:
             maxLirun = max(maxLirun, fn_1)
         return maxLirun
 
-    def maxProfit(self, prices):#122 卖股票最佳时机2
+    def maxProfit(self, prices):  # 122 卖股票最佳时机2
         if len(prices) <= 1:
             return 0
         total = 0
-        for i in range (1,len(prices)):
-            if prices[i] > prices[i-1]: #当前是下降
-                total = total + prices[i] - prices[i-1]
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i - 1]:  # 当前是下降
+                total = total + prices[i] - prices[i - 1]
         return total
 
-    def isPalindrome(self, s): #125. 验证回文串
+    def isPalindrome(self, s):  # 125. 验证回文串
         if len(s) <= 1:
             return True
         i = 0
-        j = len(s)-1
+        j = len(s) - 1
         while i < j:
             if s[i].isdigit() == False and s[i].isalpha() == False:
                 i = i + 1
@@ -654,7 +664,7 @@ class Solution:
                 j = j - 1
         return True
 
-    def singleNumber(self, nums): #136 只出现一次的数字
+    def singleNumber(self, nums):  # 136 只出现一次的数字
         # nums.sort()
         # for i in range(0,len(nums)-1,2):
         #     if nums[i] != nums[i+1]:
@@ -667,12 +677,12 @@ class Solution:
             a = a ^ num
         return a
 
-    def hasCycle(self, head): #141 环形链表
+    def hasCycle(self, head):  # 141 环形链表
         """
         :type head: ListNode
         :rtype: bool
         """
-        #快慢指针可以判断是否包含环，如果相遇代表有环
+        # 快慢指针可以判断是否包含环，如果相遇代表有环
         if head is None or head.next is None:
             return False
         fast = head.next
@@ -684,7 +694,7 @@ class Solution:
             slow = slow.next
         return True
 
-    def getIntersectionNode(self, headA, headB): #160 相交链表
+    def getIntersectionNode(self, headA, headB):  # 160 相交链表
         """
         :type head1, head1: ListNode
         :rtype: ListNode
@@ -723,8 +733,43 @@ class Solution:
                 lenA = lenA - 1
         return null
 
+    def twoSum(self, numbers, target):  # 167 两数之和2,升序序列
+        i = 0
+        j = len(numbers) - 1
+        while i != j:
+            if numbers[i] + numbers[j] > target:
+                j = j - 1
+            elif numbers[i] + numbers[j] < target:
+                i = i + 1
+            else:
+                return [i + 1, j + 1]
 
-class MinStack: #155 最小栈
+    def convertToTitle(self, n):  # 168 excel表列名称
+        dic = {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G', 8: 'H', 9: 'I', 10: 'J', 11: 'K', 12: 'L',
+               13: 'M', 14: 'N', 15: 'O', 16: 'P', 17: 'Q', 18: 'R', 19: 'S', 20: 'T', 21: 'U', 22: 'V', 23: 'W',
+               24: 'X', 25: 'Y', 26: 'Z'}
+        str = ''
+        while n > 26:
+            temp = (n-1) // 26
+            mi = 1
+            while temp > 26:
+                temp = (temp-1) // 26
+                mi = mi + 1
+            str = str + dic[temp]
+            n = n - 26 ** mi * temp
+        str = str + dic[n]
+        return str
+
+    def majorityElement(self, nums): # 169 众数
+        nums.sort()
+        return nums[len(nums) // 2]
+
+    def titleToNumber(self, s): # 171 excel表列序号
+        num = 0
+        dic={}
+
+
+class MinStack:  # 155 最小栈
 
     def __init__(self):
         """
@@ -748,6 +793,7 @@ class MinStack: #155 最小栈
 
     def getMin(self) -> int:
         return self.minlist[0]
+
 
 if __name__ == '__main__':
     # root = ListNode(2)
