@@ -917,7 +917,7 @@ class Solution:
             point += 1
         return True
 
-    # 手写快排
+    # 手写快排 对于基数，使左侧都比基数小，右侧都比基数大，然后递归左侧 右侧
     def quicksort(self, numlist, left, right):
         le = left
         rig = right
@@ -937,6 +937,63 @@ class Solution:
                 self.quicksort(numlist, left, le - 1)
             if right > le + 1:
                 self.quicksort(numlist, le + 1, right)
+
+    # 构建最大堆
+    def maxheap(self, arr, start, end):
+        root = start
+        while True:
+            child = root * 2 + 1  # 左孩子
+            if child > end:  # 孩子比最后一个节点还大 也就意味着最后一个叶子节点了 就得跳出去一次循环已经调整完毕
+                break
+            if child + 1 <= end and arr[child] < arr[child + 1]:  # 为了始终让其跟子元素的较大值比较 如果右边大就左换右，左边大的话就默认
+                child += 1
+            if arr[root] < arr[child]:  # 父节点小于子节点直接换位置 同时坐标也得换这样下次循环可以准确判断是否为最底层是不是调整完毕
+                arr[root], arr[child] = arr[child], arr[root]
+                root = child
+            else:  # 父子节点顺序正常 直接过
+                break
+
+    # 手写堆排序，升序用最大堆
+    def heapsort(self, arr):
+        first = len(arr) // 2 - 1
+        for start in range(first, -1, -1):  # 从下到上，从右到左对每个节点进调整 循环得到非叶子节点
+            big_endian(arr, start, len(arr) - 1)  # 去调整所有的节点
+        for end in range(len(arr) - 1, 0, -1):
+            arr[0], arr[end] = arr[end], arr[0]  # 顶部尾部互换位置
+            big_endian(arr, 0, end - 1)  # 重新调整子节点的顺序  从顶开始调整
+        return arr
+
+    # 合并两个有序数组
+    def merge2arr(self, numlist1, numlist2):
+        newlist = []
+        point1 = 0
+        point2 = 0
+        while True:
+            if point1 == len(numlist1) and point2 == len(numlist2):
+                break
+            if point2 == len(numlist2):
+                newlist.append(numlist1[point1])
+                point1 += 1
+            elif point1 == len(numlist1):
+                newlist.append(numlist2[point2])
+                point2 += 1
+            else:
+                if numlist1[point1] <= numlist2[point2]:
+                    newlist.append(numlist1[point1])
+                    point1 += 1
+                else:
+                    newlist.append(numlist2[point2])
+                    point2 += 1
+        return newlist
+
+    # 手写归并排序
+    def mergesort(self, numlist):
+        if len(numlist) <= 1:
+            return numlist
+        mid = len(numlist) // 2
+        left = self.mergesort(numlist[0:mid])
+        right = self.mergesort(numlist[mid:])
+        return self.merge2arr(left, right)
 
 
 class MinStack:  # 155 最小栈
@@ -991,10 +1048,13 @@ if __name__ == '__main__':
     # a.pop([2,3,4])
 
     a = Solution()
-    A = [4, 1, 7, 6, 9, 2, 8, 0, 3, 5]
+    A = [4, 6, 8, 5, 9]
 
-    b = a.quicksort(A, 0, 9)
+    # b = a.merge2arr([1,2,3],[4,4,5,6])
+    b = a.mergesort([1, 2, 3, 4, 5, 6, 7, 90, 21, 23, 45])
     # while b:
     #     print(b.val)
     #     b = b.next
-    print(A)
+    print(b)
+
+    # main()
