@@ -917,6 +917,27 @@ class Solution:
             point += 1
         return True
 
+    # 手写快排
+    def quicksort(self, numlist, left, right):
+        le = left
+        rig = right
+        if right - left > 0:  # 长度大于1
+            numbase = numlist[right]
+            while le < rig:
+                while numlist[le] <= numbase and le < rig:
+                    le += 1
+                while numlist[rig] >= numbase and le < rig:
+                    rig -= 1
+                temp = numlist[le]
+                numlist[le] = numlist[rig]
+                numlist[rig] = temp
+            numlist.pop(right)
+            numlist.insert(le, numbase)
+            if le - 1 > left:
+                self.quicksort(numlist, left, le - 1)
+            if right > le + 1:
+                self.quicksort(numlist, le + 1, right)
+
 
 class MinStack:  # 155 最小栈
 
@@ -970,9 +991,10 @@ if __name__ == '__main__':
     # a.pop([2,3,4])
 
     a = Solution()
-    A = [1, 2, 3, 4, 5, 6, 7]
-    b = a.isIsomorphic("abb", "cdd")
+    A = [4, 1, 7, 6, 9, 2, 8, 0, 3, 5]
+
+    b = a.quicksort(A, 0, 9)
     # while b:
     #     print(b.val)
     #     b = b.next
-    print(b)
+    print(A)
