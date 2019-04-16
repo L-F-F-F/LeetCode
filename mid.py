@@ -1,4 +1,61 @@
 class Solution(object):
+    # 15. 三数之和
+    def threeSum(self, nums):
+        nums.sort()
+        leng = len(nums)
+        output = []
+        for i in range(leng - 2):
+            if nums[i] > 0:
+                break
+            if i == 0 or nums[i] > nums[i - 1]:  # 先跳过重复元素
+                twosum = -nums[i]
+                left = i + 1
+                right = leng - 1
+                while left < right:
+                    if nums[left] + nums[right] < twosum:
+                        left += 1
+                    elif nums[left] + nums[right] > twosum:
+                        right -= 1
+                    else:
+                        output.append([nums[i], nums[left], nums[right]])
+                        left += 1
+                        right -= 1
+                        while left < right and nums[left] == nums[left - 1]:  # 去重，直接跳到不相同元素
+                            left += 1
+                        while left < right and nums[right] == nums[right + 1]:
+                            right -= 1
+        return output
+
+    # 18. 四数之和
+    def fourSum(self, nums, target):
+        nums.sort()
+        leng = len(nums)
+        output = []
+        for i in range(leng - 3):
+            if nums[i] > target and nums[i] >= 0:
+                break
+            if i == 0 or nums[i] > nums[i - 1]:  # 先跳过重复元素
+                for j in range(i + 1, leng - 2):
+                    if nums[i] + nums[j] > target and nums[j] >= 0:
+                        break
+                    if j == i + 1 or nums[j] > nums[j - 1]:  # 跳过重复
+                        left = j + 1
+                        right = leng - 1
+                        while left < right:
+                            if nums[i] + nums[j] + nums[left] + nums[right] < target:
+                                left += 1
+                            elif nums[i] + nums[j] + nums[left] + nums[right] > target:
+                                right -= 1
+                            else:
+                                output.append([nums[i], nums[j], nums[left], nums[right]])
+                                left += 1
+                                right -= 1
+                                while left < right and nums[left] == nums[left - 1]:
+                                    left += 1
+                                while left < right and nums[right] == nums[right + 1]:
+                                    right -= 1
+        return output
+
     # 回溯法 39、40 用
     def back(self, output, temp, numList, remain, begin):
         '''
@@ -121,5 +178,5 @@ if __name__ == "__main__":
     A = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
     A[2][2] = 0
     B = []
-    b = a.uniquePathsWithObstacles([[0, 0], [1, 1], [0, 0]])
+    b = a.fourSum([1, -2, -5, -4, -3, 3, 3, 5], -11)
     print(b)
